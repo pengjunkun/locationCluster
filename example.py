@@ -18,32 +18,42 @@ with open(location_file, 'r') as f:
         if latitude>100:
             print(row)
             continue
-        # lat.append(latitude)
-        # lon.append(longitude)
+        lat.append(latitude)
+        lon.append(longitude)
 
-# plt.scatter(lon,lat)
-# plt.show()
+plt.figure(figsize=(50,50))
+plt.scatter(lon,lat)
+xTicks=range(1152,1174)
+xTicks=[i/10 for i in xTicks]
+yTicks=range(392,411)
+yTicks=[i/10 for i in yTicks]
+plt.xticks(xTicks,xTicks)
+plt.yticks(yTicks,yTicks)
+plt.xlabel("longitude")
+plt.ylabel("latitude")
 
-# c1x = np.random.uniform(0.5, 1.5, (1, 10))
-# c1y = np.random.uniform(0.5, 1.5, (1, 10))
-# c2x = np.random.uniform(3.5, 4.5, (1, 10))
-# c2y = np.random.uniform(3.5, 4.5, (1, 10))
-# x = np.hstack((c1x, c2x))
-# y = np.hstack((c1y, c2y))
-# X = np.vstack((x, y)).T
-K = range(5, 20)
-meanDispersions = []
-centers={}
-for k in K:
-    kmeans = KMeans(n_clusters=k)
-    kmeans.fit(locations)
-    meanDispersions.append(
-        sum(np.min(cdist(locations, kmeans.cluster_centers_, 'euclidean'), axis=1)) / len(locations))
-    centers.update({k:kmeans.cluster_centers_})
-plt.plot(K, meanDispersions, 'bx-')
-plt.xlabel('k')
-plt.ylabel('Average Dispersion')
-plt.title('Selecting k with the Elbow Method')
+
+kmeans=KMeans(n_clusters=5)
+kmeans.fit(locations)
+result=kmeans.cluster_centers_
+plt.scatter(result[:,1],result[:,0],s=5000,c='r',marker='D')
+
+
 plt.show()
 
-print(centers)
+# K = range(5, 20)
+# meanDispersions = []
+# centers={}
+# for k in K:
+#     kmeans = KMeans(n_clusters=k)
+#     kmeans.fit(locations)
+#     meanDispersions.append(
+#         sum(np.min(cdist(locations, kmeans.cluster_centers_, 'euclidean'), axis=1)) / len(locations))
+#     centers.update({k:kmeans.cluster_centers_})
+# plt.plot(K, meanDispersions, 'bx-')
+# plt.xlabel('k')
+# plt.ylabel('Average Dispersion')
+# plt.title('Selecting k with the Elbow Method')
+# plt.show()
+#
+# print(centers)
